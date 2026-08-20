@@ -3,8 +3,10 @@ import java.util.Scanner;
 class bankOperation{
     double balance = 10000.00;
 
-    String type[] = new String[10];
-    int amount[] = new int[10];
+    String transactionType[] = new String[10];
+    int transactionAmount[] = new int[10];
+
+    int transactionIndex = 0;
 
     public void checkBalance(){
         System.out.print("Current Balance: " + balance);
@@ -14,9 +16,15 @@ class bankOperation{
         double depoMoney;
         System.out.print("Enter the amount you want to deposit: ");
         depoMoney = scan.nextDouble();
-        System.out.println("Congratulations you have deposited "+ depoMoney);
         balance += depoMoney;
+
+        transactionType[transactionIndex] = "Deposit";
+        transactionAmount[transactionIndex] = (int) depoMoney;
+        transactionIndex++;
+
+        System.out.println("Congratulations you have deposited "+ depoMoney);
         System.out.print("Your updated balance is: " + balance);
+
     }
     public void withDraw() {
         Scanner scan = new Scanner(System.in);
@@ -25,6 +33,11 @@ class bankOperation{
         drawMoney = scan.nextDouble();
         if (drawMoney <= balance){
             balance -= drawMoney;
+
+            transactionType[transactionIndex] = "Withdraw";
+            transactionAmount[transactionIndex] = (int) drawMoney;
+            transactionIndex++;
+
             System.out.print("You have withdrawn: " + drawMoney + "\n");
             System.out.print("\nYour new current balance is: " + balance);
         }
@@ -32,9 +45,16 @@ class bankOperation{
             System.out.println("\nInsufficient balance");
         }
     }
+
+    public void transactionHistory() {
+        System.out.println("\n===== TRANSACTION HISTORY =====");
+         for (int i = 0 ; i < transactionIndex ; i++){
+             System.out.println(transactionType[i] + " : ₹" + transactionAmount[i]);
+         }
+    }
 }
 
-public class Student {
+public class Bank {
     public static void main(String[] args){
         Scanner scan = new Scanner(System.in);
         bankOperation opr = new bankOperation();
@@ -59,7 +79,7 @@ public class Student {
                 opr.withDraw();
                 break;
             case 4:
-                System.out.print("Transaction History");
+                opr.transactionHistory();
                 break;
             case 5:
                 System.out.print("Exit");
